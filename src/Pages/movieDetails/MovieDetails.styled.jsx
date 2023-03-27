@@ -2,6 +2,16 @@ import { HiArrowLeft } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+export const MovieInfo = styled.div`
+  display: flex;
+`;
+
+export const MoviePoster = styled.div``;
+
+export const MovieDescription = styled.div`
+  margin-left: 20px;
+`;
+
 const StyledLink = styled(Link)`
   display: inline-flex;
   align-items: center;

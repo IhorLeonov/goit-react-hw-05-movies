@@ -15,9 +15,12 @@ const Movies = () => {
   useEffect(() => {
     if (!searchQuery) return;
 
+    const abortController = new AbortController();
+    const abortOptions = { signal: abortController.signal };
+
     async function fetchMovie() {
       try {
-        const data = await getMovieByName(searchQuery);
+        const data = await getMovieByName(searchQuery, abortOptions);
         setFoundFilms(data.results);
       } catch (err) {
         console.log('Error');
@@ -25,6 +28,7 @@ const Movies = () => {
     }
 
     fetchMovie();
+    return () => abortController.abort();
   }, [searchQuery]);
 
   const updateQueryString = query => {

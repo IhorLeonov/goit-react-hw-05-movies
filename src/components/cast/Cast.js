@@ -7,9 +7,12 @@ const Cast = () => {
   const [movieCast, setMovieCast] = useState([]);
 
   useEffect(() => {
+    const abortController = new AbortController();
+    const abortOptions = { signal: abortController.signal };
+
     async function fetchCast() {
       try {
-        const data = await getCastOfMovie(movieId);
+        const data = await getCastOfMovie(movieId, abortOptions);
         setMovieCast(data.cast);
       } catch (err) {
         console.log('Error');
@@ -17,6 +20,7 @@ const Cast = () => {
     }
 
     fetchCast();
+    return () => abortController.abort();
   }, [movieId]);
 
   return (

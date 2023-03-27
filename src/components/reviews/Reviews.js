@@ -7,9 +7,12 @@ const Reviews = () => {
   const [movieReviews, setMovieReviews] = useState([]);
 
   useEffect(() => {
+    const abortController = new AbortController();
+    const abortOptions = { signal: abortController.signal };
+
     async function fetchReviews() {
       try {
-        const data = await getMovieReviews(movieId);
+        const data = await getMovieReviews(movieId, abortOptions);
         setMovieReviews(data.results);
       } catch (err) {
         console.log('Error');
@@ -17,6 +20,7 @@ const Reviews = () => {
     }
 
     fetchReviews();
+    return () => abortController.abort();
   }, [movieId]);
 
   return (
