@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getCastOfMovie } from 'components/services/themoviedbAPI';
+import { CastDesc, CastItem, CastList } from './Cast.styled';
 
 const Cast = () => {
   const { movieId } = useParams();
@@ -24,10 +25,10 @@ const Cast = () => {
   }, [movieId]);
 
   return (
-    <ul>
+    <CastList>
       {movieCast.length > 0 ? (
         movieCast.map(({ id, profile_path, name, character }) => (
-          <li key={id}>
+          <CastItem key={id}>
             <div>
               {profile_path ? (
                 <img
@@ -39,14 +40,14 @@ const Cast = () => {
                 <p>Photo {name} must be here</p>
               )}
             </div>
-            <p>{name}</p>
-            <p>Character: {character}</p>
-          </li>
+            <CastDesc>{name}</CastDesc>
+            <CastDesc>Character: {character}</CastDesc>
+          </CastItem>
         ))
       ) : (
         <p>We don't have any information about cast for this movies.</p>
       )}
-    </ul>
+    </CastList>
   );
 };
 

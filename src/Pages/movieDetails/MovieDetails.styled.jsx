@@ -4,12 +4,30 @@ import styled from 'styled-components';
 
 export const MovieInfo = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 export const MoviePoster = styled.div``;
 
 export const MovieDescription = styled.div`
   margin-left: 20px;
+`;
+
+export const MovieDescriptionItem = styled.li`
+  margin-bottom: 15px;
+`;
+
+export const AdditionalBox = styled.div`
+  margin-top: 25px;
+`;
+
+export const AdditionalItem = styled.li`
+  margin-top: 15px;
+`;
+
+export const Border = styled.div`
+  margin-top: 20px;
+  border-bottom: 1px solid black;
 `;
 
 const StyledLink = styled(Link)`

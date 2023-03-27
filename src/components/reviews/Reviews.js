@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getMovieReviews } from 'components/services/themoviedbAPI';
+import { ReviewsItem, ReviewsList } from './Reviews.styled';
 
 const Reviews = () => {
   const { movieId } = useParams();
@@ -24,18 +25,18 @@ const Reviews = () => {
   }, [movieId]);
 
   return (
-    <ul>
+    <ReviewsList>
       {movieReviews.length > 0 ? (
         movieReviews.map(({ id, author, content }) => (
-          <li key={id}>
+          <ReviewsItem key={id}>
             <h4>Author: {author}</h4>
             <p>{content}</p>
-          </li>
+          </ReviewsItem>
         ))
       ) : (
         <p>We don't have any reviews for this movies.</p>
       )}
-    </ul>
+    </ReviewsList>
   );
 };
 

@@ -20,7 +20,6 @@ export const Home = () => {
         setPopularFilms(data.results);
       } catch (err) {
         console.log('Error');
-        console.log(err);
       }
     }
 

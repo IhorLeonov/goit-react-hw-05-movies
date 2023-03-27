@@ -6,6 +6,10 @@ import {
   MoviePoster,
   MovieInfo,
   MovieDescription,
+  MovieDescriptionItem,
+  Border,
+  AdditionalBox,
+  AdditionalItem,
 } from 'Pages/movieDetails/MovieDetails.styled';
 
 const MovieDetails = () => {
@@ -25,7 +29,6 @@ const MovieDetails = () => {
         setMovieDetails(data);
       } catch (err) {
         console.log('Error');
-        console.log(err);
       }
     }
 
@@ -47,8 +50,7 @@ const MovieDetails = () => {
             <img
               src={`https://image.tmdb.org/t/p/w500${poster_path}`}
               alt={`Poster ${title}`}
-              width="250px"
-              height="375px"
+              width="100%"
             />
           ) : (
             <p>Poster must be here</p>
@@ -56,35 +58,41 @@ const MovieDetails = () => {
         </MoviePoster>
 
         <MovieDescription>
-          <h2>
-            {title} ({release_date.slice(0, 4)})
-          </h2>
-          <p>User score: {Math.round(vote_average * 10)}%</p>
-          <div>
-            <h3>Overview</h3>
-            <p>{overview}</p>
-          </div>
-          <div>
-            <h4>Genres</h4>
-            <p>
-              {genres.length > 0 && genres.map(({ name }) => name).join(' ')}
-            </p>
-          </div>
+          <ul>
+            <MovieDescriptionItem>
+              <h2>
+                {title} ({release_date.slice(0, 4)})
+              </h2>
+              <p>User score: {Math.round(vote_average * 10)}%</p>
+            </MovieDescriptionItem>
+            <MovieDescriptionItem>
+              <h3>Overview</h3>
+              <p>{overview}</p>
+            </MovieDescriptionItem>
+            <MovieDescriptionItem>
+              <h4>Genres</h4>
+              <p>
+                {genres.length > 0 && genres.map(({ name }) => name).join(' ')}
+              </p>
+            </MovieDescriptionItem>
+          </ul>
         </MovieDescription>
       </MovieInfo>
+      <Border />
 
-      <div>
+      <AdditionalBox>
         <p>Additional information</p>
-
         <ul>
-          <li>
+          <AdditionalItem>
             <Link to="cast">Cast</Link>
-          </li>
-          <li>
+          </AdditionalItem>
+          <AdditionalItem>
             <Link to="reviews">Reviews</Link>
-          </li>
+          </AdditionalItem>
         </ul>
-      </div>
+      </AdditionalBox>
+
+      <Border />
       <Suspense fallback={<div>Loading page...</div>}>
         <Outlet />
       </Suspense>
