@@ -2,10 +2,12 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getMovieReviews } from 'components/services/themoviedbAPI';
 import { ReviewsItem, ReviewsList } from './Reviews.styled';
+import { useOutletContext } from 'react-router-dom';
 
 const Reviews = () => {
   const { movieId } = useParams();
   const [movieReviews, setMovieReviews] = useState([]);
+  const [isVisible] = useOutletContext();
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -25,18 +27,22 @@ const Reviews = () => {
   }, [movieId]);
 
   return (
-    <ReviewsList>
-      {movieReviews.length > 0 ? (
-        movieReviews.map(({ id, author, content }) => (
-          <ReviewsItem key={id}>
-            <h4>Author: {author}</h4>
-            <p>{content}</p>
-          </ReviewsItem>
-        ))
-      ) : (
-        <p>We don't have any reviews for this movies.</p>
+    <>
+      {isVisible && (
+        <ReviewsList>
+          {movieReviews.length > 0 ? (
+            movieReviews.map(({ id, author, content }) => (
+              <ReviewsItem key={id}>
+                <h4>Author: {author}</h4>
+                <p>{content}</p>
+              </ReviewsItem>
+            ))
+          ) : (
+            <p>We don't have any reviews for this movies.</p>
+          )}
+        </ReviewsList>
       )}
-    </ReviewsList>
+    </>
   );
 };
 

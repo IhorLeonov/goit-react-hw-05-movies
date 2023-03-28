@@ -46,4 +46,8 @@ img {
 li {
   list-style: none;
 }
+a {
+  color: inherit; 
+  text-decoration: none; 
+}
 `;

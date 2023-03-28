@@ -32,3 +32,9 @@ export const getMovieReviews = async (movieId, abortOptions) => {
   const response = await axios.get(url, abortOptions);
   return response.data;
 };
+
+export const getMovieVideo = async (movieId, abortOptions) => {
+  const url = `${BASE_URL}movie/${movieId}/videos?api_key=${API_KEY}`;
+  const response = await axios.get(url, abortOptions);
+  return response.data;
+};

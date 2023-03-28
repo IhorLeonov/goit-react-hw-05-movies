@@ -4,10 +4,13 @@ import styled from 'styled-components';
 
 export const MovieInfo = styled.div`
   display: flex;
-  align-items: center;
+  align-items: start;
+  margin-top: 10px;
 `;
 
-export const MoviePoster = styled.div``;
+export const MoviePoster = styled.img`
+  width: 180px;
+`;
 
 export const MovieDescription = styled.div`
   margin-left: 20px;
@@ -18,11 +21,20 @@ export const MovieDescriptionItem = styled.li`
 `;
 
 export const AdditionalBox = styled.div`
-  margin-top: 25px;
+  margin-top: 15px;
+`;
+
+export const AdditionalList = styled.div`
+  display: flex;
+  gap: 20px;
 `;
 
 export const AdditionalItem = styled.li`
   margin-top: 15px;
+
+  :hover {
+    color: orangered;
+  }
 `;
 
 export const Border = styled.div`
@@ -34,7 +46,7 @@ const StyledLink = styled(Link)`
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 8px 0;
+  /* padding: 8px 0; */
   color: black;
   text-decoration: none;
   font-weight: 500;
@@ -48,7 +60,7 @@ const StyledLink = styled(Link)`
 export const BackLink = ({ to, children }) => {
   return (
     <StyledLink to={to}>
-      <HiArrowLeft size="24" />
+      <HiArrowLeft size="18" />
       {children}
     </StyledLink>
   );

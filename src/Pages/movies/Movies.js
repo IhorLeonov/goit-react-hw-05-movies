@@ -1,10 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Formik, Form, Field } from 'formik';
+import { Formik } from 'formik';
 import { getMovieByName } from 'components/services/themoviedbAPI';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import MovieList from 'components/movieList/MovieList';
+import { GrFormSearch } from 'react-icons/gr';
+
+import {
+  SearchbarHeader,
+  SearchForm,
+  SearchFormButton,
+  SearchFormButtonLabel,
+  SearchFormInput,
+} from './Movies.styled';
 
 const Movies = () => {
   const [foundFilms, setFoundFilms] = useState([]);
@@ -38,28 +47,40 @@ const Movies = () => {
 
   return (
     <>
-      <Formik
-        initialValues={{ inputQuary: '', isSubmitting: true }}
-        onSubmit={(values, actions) => {
-          const { resetForm } = actions;
-          const { inputQuary } = values;
+      <SearchbarHeader>
+        <Formik
+          initialValues={{ inputQuary: '', isSubmitting: true }}
+          onSubmit={(values, actions) => {
+            const { resetForm } = actions;
+            const { inputQuary } = values;
 
-          if (inputQuary.trim() === '') {
-            toast.error('Enter search query!', {
-              position: 'top-left',
-              autoClose: 500,
-            });
-            return;
-          }
-          updateQueryString(inputQuary);
-          resetForm();
-        }}
-      >
-        <Form>
-          <Field name="inputQuary" type="text" autoComplete="off" />
-          <button type="submit">Submit</button>
-        </Form>
-      </Formik>
+            if (inputQuary.trim() === '') {
+              toast.error('Enter search query!', {
+                position: 'top-left',
+                autoClose: 500,
+              });
+              return;
+            }
+            updateQueryString(inputQuary);
+            resetForm();
+          }}
+        >
+          <SearchForm>
+            <SearchFormButton type="submit">
+              <GrFormSearch size="25px"></GrFormSearch>
+              <SearchFormButtonLabel></SearchFormButtonLabel>
+            </SearchFormButton>
+
+            <SearchFormInput
+              name="inputQuary"
+              type="text"
+              autoComplete="off"
+              autoFocus
+              placeholder="Choose your movie!"
+            />
+          </SearchForm>
+        </Formik>
+      </SearchbarHeader>
       {foundFilms.length > 0 && <MovieList movies={foundFilms} />}
       <ToastContainer />
     </>

@@ -10,11 +10,14 @@ import {
   Border,
   AdditionalBox,
   AdditionalItem,
+  AdditionalList,
 } from 'Pages/movieDetails/MovieDetails.styled';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [movieDetails, setMovieDetails] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [target, setTarget] = useState('');
 
   const location = useLocation();
   const backLinkRef = useRef(location.state?.from ?? '/movies');
@@ -43,19 +46,17 @@ const MovieDetails = () => {
 
   return (
     <div>
-      <BackLink to={backLinkRef.current}>Back to movies</BackLink>
+      <BackLink to={backLinkRef.current}>Back</BackLink>
       <MovieInfo>
-        <MoviePoster>
-          {poster_path ? (
-            <img
-              src={`https://image.tmdb.org/t/p/w500${poster_path}`}
-              alt={`Poster ${title}`}
-              width="100%"
-            />
-          ) : (
-            <p>Poster must be here</p>
-          )}
-        </MoviePoster>
+        <MoviePoster
+          src={
+            poster_path
+              ? `https://image.tmdb.org/t/p/w500${poster_path}`
+              : 'https://motivatevalmorgan.com/wp-content/uploads/2016/06/default-movie.jpg'
+          }
+          alt={`Poster ${title}`}
+          width="100%"
+        />
 
         <MovieDescription>
           <ul>
@@ -70,7 +71,7 @@ const MovieDetails = () => {
               <p>{overview}</p>
             </MovieDescriptionItem>
             <MovieDescriptionItem>
-              <h4>Genres</h4>
+              <h3>Genres</h3>
               <p>
                 {genres.length > 0 && genres.map(({ name }) => name).join(' ')}
               </p>
@@ -81,20 +82,50 @@ const MovieDetails = () => {
       <Border />
 
       <AdditionalBox>
-        <p>Additional information</p>
-        <ul>
-          <AdditionalItem>
+        <h4>Additional information</h4>
+        <AdditionalList>
+          <AdditionalItem
+            onClick={() => {
+              if (target === 'cast') {
+                setIsVisible(prevState => !prevState);
+                return;
+              }
+              setIsVisible(true);
+              setTarget('cast');
+            }}
+          >
             <Link to="cast">Cast</Link>
           </AdditionalItem>
-          <AdditionalItem>
+          <AdditionalItem
+            onClick={() => {
+              if (target === 'reviews') {
+                setIsVisible(prevState => !prevState);
+                return;
+              }
+              setIsVisible(true);
+              setTarget('reviews');
+            }}
+          >
             <Link to="reviews">Reviews</Link>
           </AdditionalItem>
-        </ul>
+          <AdditionalItem
+            onClick={() => {
+              if (target === 'trailer') {
+                setIsVisible(prevState => !prevState);
+                return;
+              }
+              setIsVisible(true);
+              setTarget('trailer');
+            }}
+          >
+            <Link to="trailer">Trailer</Link>
+          </AdditionalItem>
+        </AdditionalList>
       </AdditionalBox>
 
       <Border />
       <Suspense fallback={<div>Loading page...</div>}>
-        <Outlet />
+        <Outlet context={[isVisible]} />
       </Suspense>
     </div>
   );
