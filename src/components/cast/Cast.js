@@ -7,9 +7,11 @@ import { useOutletContext } from 'react-router-dom';
 const Cast = () => {
   const { movieId } = useParams();
   const [movieCast, setMovieCast] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [isVisible] = useOutletContext();
 
   useEffect(() => {
+    setIsLoading(true);
     const abortController = new AbortController();
     const abortOptions = { signal: abortController.signal };
 
@@ -17,8 +19,12 @@ const Cast = () => {
       try {
         const data = await getCastOfMovie(movieId, abortOptions);
         setMovieCast(data.cast);
+        setIsLoading(false);
       } catch (err) {
+        if (err.code === 'ERR_CANCELED') return;
+
         console.log('Error');
+      } finally {
       }
     }
 
@@ -30,7 +36,7 @@ const Cast = () => {
     <>
       {isVisible && (
         <CastList>
-          {movieCast.length > 0 ? (
+          {movieCast.length > 0 &&
             movieCast.map(({ id, profile_path, name, character }) => (
               <CastItem key={id}>
                 <div>
@@ -48,8 +54,8 @@ const Cast = () => {
                 <CastDesc>{name}</CastDesc>
                 <CastDesc>Character: {character}</CastDesc>
               </CastItem>
-            ))
-          ) : (
+            ))}
+          {movieCast.length === 0 && !isLoading && (
             <p>We don't have any information about cast for this movies.</p>
           )}
         </CastList>

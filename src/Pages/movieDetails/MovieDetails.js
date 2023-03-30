@@ -31,6 +31,8 @@ const MovieDetails = () => {
         const data = await getInfoByMovieId(movieId, abortOptions);
         setMovieDetails(data);
       } catch (err) {
+        if (err.code === 'ERR_CANCELED') return;
+
         console.log('Error');
       }
     }

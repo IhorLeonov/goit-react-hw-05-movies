@@ -5,9 +5,11 @@ import { Player, PlayerWrapper } from './Trailer.styled';
 
 const Reviews = () => {
   const { movieId } = useParams();
-  const [trailerUrl, setTrailerUrl] = useState([]);
+  const [trailerUrl, setTrailerUrl] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     const abortController = new AbortController();
     const abortOptions = { signal: abortController.signal };
 
@@ -19,9 +21,10 @@ const Reviews = () => {
         if (!trailer) return;
 
         setTrailerUrl(`https://www.youtube.com/watch?v=${trailer.key}`);
-
-        console.log(trailerUrl);
+        setIsLoading(false);
       } catch (err) {
+        if (err.code === 'ERR_CANCELED') return;
+
         console.log('Error');
       }
     }
@@ -31,13 +34,16 @@ const Reviews = () => {
   }, [movieId, trailerUrl]);
 
   return (
-    <PlayerWrapper>
-      <Player
-        url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
-        width="100%"
-        height="100%"
-      />
-    </PlayerWrapper>
+    <>
+      {trailerUrl !== '' && (
+        <PlayerWrapper>
+          <Player url={trailerUrl} width="100%" height="100%" />
+        </PlayerWrapper>
+      )}
+      {trailerUrl === '' && !isLoading && (
+        <p>We don't have any information about cast for this movies.</p>
+      )}
+    </>
   );
 };
 

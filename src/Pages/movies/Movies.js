@@ -32,6 +32,8 @@ const Movies = () => {
         const data = await getMovieByName(searchQuery, abortOptions);
         setFoundFilms(data.results);
       } catch (err) {
+        if (err.code === 'ERR_CANCELED') return;
+
         console.log('Error');
       }
     }

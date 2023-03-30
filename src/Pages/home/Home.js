@@ -19,6 +19,8 @@ export const Home = () => {
         const data = await getPopularFilms(abortOptions);
         setPopularFilms(data.results);
       } catch (err) {
+        if (err.code === 'ERR_CANCELED') return;
+
         console.log('Error');
       }
     }
